@@ -1,3 +1,4 @@
+// graceful
 package graceful
 
 import (
@@ -7,27 +8,36 @@ import (
 	"os/signal"
 	"sync"
 	"time"
-
-	"golang.org/x/exp/slog"
 )
 
+// Config
+type Config struct {
+	Signals         []os.Signal
+	ShutdownTimeout time.Duration
+}
+
+// Config_SetDefault
+func (c Config) SetDefault() {
+	if len(c.Signals) == 0 {
+		c.Signals = []os.Signal{os.Interrupt}
+	}
+}
+
+// Server
 type Server interface {
 	Serve(ctx context.Context) error
 	Shutdown(ctx context.Context) error
 }
 
+// Servers
 type Servers struct {
-	Logger  *slog.Logger
 	Servers []Server
 }
 
-type GracefulConfig struct {
-	ShutdownTimeout time.Duration
-}
-
 // Servers_Graceful
-func (s Servers) Graceful(ctx context.Context, cfg GracefulConfig) error {
-	ctx, stop := signal.NotifyContext(ctx, os.Interrupt)
+func (s Servers) Graceful(ctx context.Context, cfg Config) error {
+	cfg.SetDefault()
+	ctx, stop := signal.NotifyContext(ctx, cfg.Signals...)
 	defer stop()
 
 	ctx, cancel := context.WithCancelCause(ctx)
@@ -44,7 +54,6 @@ func (s Servers) Graceful(ctx context.Context, cfg GracefulConfig) error {
 
 	<-ctx.Done()
 	if err := context.Cause(ctx); err != nil && !errors.Is(err, context.Canceled) {
-		//s.Logger.Error("failed to start servers", slog.String("err", err.Error()))
 		return errors.Join(errors.New("failed to start servers"), err)
 	}
 
@@ -53,20 +62,24 @@ func (s Servers) Graceful(ctx context.Context, cfg GracefulConfig) error {
 
 	var wg sync.WaitGroup
 
+	var shutdownErr error = nil
+	var shutdownErrMu sync.Mutex
+
 	for _, srv := range s.Servers {
 		wg.Add(1)
 		go func(ctx context.Context, srv Server) {
 			defer wg.Done()
 			if err := srv.Shutdown(ctx); err != nil {
-				s.Logger.ErrorCtx(ctx, "failed to shutdown the server", slog.String("err", err.Error()))
+				shutdownErrMu.Lock()
+				defer shutdownErrMu.Unlock()
+				shutdownErr = errors.Join(shutdownErr, err)
 			}
 		}(ctx, srv)
 	}
 
 	wg.Wait()
-	if err := context.Cause(ctx); err != nil && !errors.Is(err, context.Canceled) {
-		//s.Logger.ErrorCtx(ctx, "failed to shutdown gracefully", slog.String("err", err.Error()))
-		return errors.Join(errors.New("failed to shutdown gracefully"), err)
+	if err := context.Cause(ctx); shutdownErr != nil || (err != nil && !errors.Is(err, context.Canceled)) {
+		return errors.Join(errors.New("failed to shutdown gracefully"), shutdownErr, err)
 	}
 	return nil
 }

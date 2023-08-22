@@ -2,11 +2,11 @@ package main
 
 import (
 	"context"
-	"errors"
+	_ "errors"
 	"os"
 	"time"
 
-	"github.com/ne-sachirou/go-graceful/graceful"
+	"github.com/ne-sachirou/go-graceful"
 	"golang.org/x/exp/slog"
 )
 
@@ -26,17 +26,12 @@ func (s *ExampleServer) Shutdown(ctx context.Context) error {
 
 func main() {
 	ctx := context.Background()
-	slog.InfoCtx(ctx, "start")
-	if err := (graceful.Servers{
-		Logger:  slog.Default(),
+	srv := graceful.Servers{
 		Servers: []graceful.Server{&ExampleServer{}},
-	}.Graceful(
-		ctx,
-		graceful.GracefulConfig{ShutdownTimeout: time.Second},
-	)); err != nil {
+	}
+	cfg := graceful.Config{ShutdownTimeout: time.Second}
+	if err := srv.Graceful(ctx, cfg); err != nil {
 		slog.ErrorCtx(ctx, err.Error())
 		os.Exit(1)
 	}
-	slog.InfoCtx(ctx, "finish")
-	os.Exit(0)
 }
