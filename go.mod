@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	golang.org/x/exp v0.0.0-20230801115018-d63ba01acd4b
-	google.golang.org/grpc v1.57.0
+	google.golang.org/grpc v1.57.1
 )
 
 require (
