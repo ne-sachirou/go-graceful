@@ -16,11 +16,12 @@ type Config struct {
 	ShutdownTimeout time.Duration
 }
 
-// SetDefault resets c with default parameters.
-func (c Config) SetDefault() {
+// signalsToStop returns signals; Graceful will stop gracefully on receive any one of them.
+func (c Config) signalsToStop() []os.Signal {
 	if len(c.Signals) == 0 {
-		c.Signals = []os.Signal{os.Interrupt}
+		return []os.Signal{os.Interrupt}
 	}
+	return c.Signals
 }
 
 // Server is the interface that wraps the Serve and Shutdown methods.
@@ -37,8 +38,7 @@ type Servers struct {
 // Graceful runs all servers contained in s, then waits signals.
 // When receive an expected signal, s stops all servers gracefully.
 func (s Servers) Graceful(ctx context.Context, cfg Config) error {
-	cfg.SetDefault()
-	ctx, stop := signal.NotifyContext(ctx, cfg.Signals...)
+	ctx, stop := signal.NotifyContext(ctx, cfg.signalsToStop()...)
 	defer stop()
 
 	ctx, cancel := context.WithCancelCause(ctx)
