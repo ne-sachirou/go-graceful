@@ -1,5 +1,5 @@
-// Package grpc provides utilities for go-graceful.
-package grpc
+// Package gracefulgrpc provides utilities for go-graceful.
+package gracefulgrpc
 
 import (
 	"context"
