@@ -1,4 +1,4 @@
-// graceful
+// Package graceful provides utilities for shutting down servers gracefully.
 package graceful
 
 import (
@@ -10,31 +10,32 @@ import (
 	"time"
 )
 
-// Config
+// Config represents configuration parameters for the Server.
 type Config struct {
 	Signals         []os.Signal
 	ShutdownTimeout time.Duration
 }
 
-// Config_SetDefault
+// SetDefault resets c with default parameters.
 func (c Config) SetDefault() {
 	if len(c.Signals) == 0 {
 		c.Signals = []os.Signal{os.Interrupt}
 	}
 }
 
-// Server
+// Server is the interface that wraps the Serve and Shutdown methods.
 type Server interface {
 	Serve(ctx context.Context) error
 	Shutdown(ctx context.Context) error
 }
 
-// Servers
+// Servers is the collection of the servers will be shutting down at the same time.
 type Servers struct {
 	Servers []Server
 }
 
-// Servers_Graceful
+// Graceful runs all servers contained in s, then waits signals.
+// When receive an expected signal, s stops all servers gracefully.
 func (s Servers) Graceful(ctx context.Context, cfg Config) error {
 	cfg.SetDefault()
 	ctx, stop := signal.NotifyContext(ctx, cfg.Signals...)
