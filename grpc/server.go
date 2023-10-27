@@ -1,4 +1,4 @@
-// grpc
+// Package grpc provides utilities for go-graceful.
 package grpc
 
 import (

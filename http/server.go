@@ -1,4 +1,4 @@
-// http
+// Package http provides utilities for go-graceful.
 package http
 
 import (
