@@ -1,11 +1,8 @@
 module github.com/ne-sachirou/go-graceful
 
-go 1.20
+go 1.21
 
-require (
-	golang.org/x/exp v0.0.0-20230801115018-d63ba01acd4b
-	google.golang.org/grpc v1.57.1
-)
+require google.golang.org/grpc v1.57.1
 
 require (
 	github.com/golang/protobuf v1.5.3 // indirect
