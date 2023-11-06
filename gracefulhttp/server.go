@@ -1,5 +1,5 @@
-// Package http provides utilities for go-graceful.
-package http
+// Package gracefulhttp provides utilities for go-graceful.
+package gracefulhttp
 
 import (
 	"context"
