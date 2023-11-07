@@ -1,5 +1,5 @@
 ---
-name: Pull Request の CI
+name: Pull Request
 "on":
   pull_request:
 
