@@ -1,5 +1,5 @@
 ---
-name: main branch に commit された時の CI
+name: main branch
 "on":
   push:
     branches:
