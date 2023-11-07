@@ -19,5 +19,12 @@ func main() {
 	srv := grpc.NewServer(opts...)
 	reflection.Register(srv)
 
-	gracefulgrpc.ListenAndServe(ctx, ":4317", srv, graceful.GracefulShutdownTimeout(time.Second))
+	if err := gracefulgrpc.ListenAndServe(
+		ctx,
+		":4317",
+		srv,
+		graceful.GracefulShutdownTimeout(time.Second),
+	); err != nil {
+		panic(err)
+	}
 }

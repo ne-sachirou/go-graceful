@@ -1,0 +1,11 @@
+---
+name: Pull Request の CI
+"on":
+  pull_request:
+
+jobs:
+  test-actions:
+    uses: ./.github/workflows/wf-test-actions.yml
+
+  test-go:
+    uses: ./.github/workflows/wf-test-go.yml

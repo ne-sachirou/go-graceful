@@ -1,0 +1,21 @@
+---
+name: Go の test
+"on":
+  workflow_call:
+
+jobs:
+  test-go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: go.mod
+      - uses: golangci/golangci-lint-action@v3
+      - name: go generate の生成漏れが無いか確認
+        run: |
+          set -e
+          go generate ./...
+          git diff --exit-code
+      - name: go test
+        run: go test ./...

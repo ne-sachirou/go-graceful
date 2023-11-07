@@ -1,0 +1,13 @@
+---
+name: main branch に commit された時の CI
+"on":
+  push:
+    branches:
+      - main
+
+jobs:
+  test-actions:
+    uses: ./.github/workflows/wf-test-actions.yml
+
+  test-go:
+    uses: ./.github/workflows/wf-test-go.yml
