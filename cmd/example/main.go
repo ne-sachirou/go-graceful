@@ -1,3 +1,4 @@
+// Graceful shutdown example.
 package main
 
 import (
@@ -8,6 +9,7 @@ import (
 	"github.com/ne-sachirou/go-graceful"
 )
 
+// main loop を go routine の中で回す例。
 type ExampleServer struct{}
 
 func (s *ExampleServer) Serve(ctx context.Context) error {
@@ -31,6 +33,7 @@ func (s *ExampleServer) Shutdown(ctx context.Context) error {
 	return nil
 }
 
+// 呼び出し元を blocking して main loop を回す例。
 type ExampleBlockingServer struct{}
 
 func (s *ExampleBlockingServer) Serve(ctx context.Context) error {
