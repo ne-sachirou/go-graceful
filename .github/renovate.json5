@@ -1,0 +1,11 @@
+{
+  labels: ["dependencies"],
+  packageRules: [
+    {
+      automerge: true,
+      matchUpdateTypes: ["minor", "patch"],
+    },
+  ],
+  schedule: "after 10am and before 7pm every weekday",
+  timezone: "Asia/Tokyo",
+}
