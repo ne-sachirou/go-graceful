@@ -53,14 +53,15 @@ func (s *ExampleBlockingServer) Shutdown(ctx context.Context) error {
 
 func main() {
 	ctx := context.Background()
+
 	srv := graceful.Servers{
 		Servers: []graceful.Server{
 			&ExampleServer{},
 			&ExampleBlockingServer{},
 		},
 	}
-	cfg := graceful.Config{ShutdownTimeout: time.Second}
-	if err := srv.Graceful(ctx, cfg); err != nil {
+
+	if err := srv.Graceful(ctx, graceful.GracefulShutdownTimeout(time.Second)); err != nil {
 		panic(err)
 	}
 }

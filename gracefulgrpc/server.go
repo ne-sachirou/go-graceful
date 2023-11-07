@@ -7,6 +7,8 @@ import (
 	"net"
 
 	"google.golang.org/grpc"
+
+	"github.com/ne-sachirou/go-graceful"
 )
 
 type Server struct {
@@ -34,4 +36,15 @@ func (s *Server) Shutdown(ctx context.Context) error {
 	case <-ctx.Done():
 		return errors.New("timeout")
 	}
+}
+
+// ListenAndServe is a helper function for graceful.Servers.Graceful.
+func ListenAndServe(
+	ctx context.Context,
+	addr string,
+	server *grpc.Server,
+	options ...func(*graceful.GracefulOpts),
+) error {
+	srv := graceful.Servers{Servers: []graceful.Server{&Server{Addr: addr, Server: server}}}
+	return srv.Graceful(ctx, options...)
 }

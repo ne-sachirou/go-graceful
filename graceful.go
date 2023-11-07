@@ -10,20 +10,6 @@ import (
 	"time"
 )
 
-// Config represents configuration parameters for the Server.
-type Config struct {
-	Signals         []os.Signal
-	ShutdownTimeout time.Duration
-}
-
-// setDefault resets c with default parameters.
-func (c Config) setDefault() Config {
-	if len(c.Signals) == 0 {
-		c.Signals = []os.Signal{os.Interrupt}
-	}
-	return c
-}
-
 // Server is the interface that wraps the Serve and Shutdown methods.
 type Server interface {
 	Serve(ctx context.Context) error
@@ -35,12 +21,39 @@ type Servers struct {
 	Servers []Server
 }
 
+// GracefulOpts represents configuration parameters for the Server.
+// In default, GracefulOpts.Signals is []os.Signal{os.Interrupt} and GracefulOpts.ShutdownTimeout is 0.
+type GracefulOpts struct {
+	Signals         []os.Signal
+	ShutdownTimeout time.Duration
+}
+
+func defaultGracefulOpts() GracefulOpts {
+	return GracefulOpts{
+		Signals:         []os.Signal{os.Interrupt},
+		ShutdownTimeout: 0,
+	}
+}
+
+// GracefulSignals sets signals to be received.
+func GracefulSignals(signals ...os.Signal) func(*GracefulOpts) {
+	return func(o *GracefulOpts) { o.Signals = signals }
+}
+
+// GracefulShutdownTimeout sets timeout for shutdown.
+func GracefulShutdownTimeout(timeout time.Duration) func(*GracefulOpts) {
+	return func(o *GracefulOpts) { o.ShutdownTimeout = timeout }
+}
+
 // Graceful runs all servers contained in s, then waits signals.
 // When receive an expected signal, s stops all servers gracefully.
-func (s Servers) Graceful(ctx context.Context, cfg Config) error {
-	cfg = cfg.setDefault()
+func (s Servers) Graceful(ctx context.Context, options ...func(*GracefulOpts)) error {
+	opts := defaultGracefulOpts()
+	for _, f := range options {
+		f(&opts)
+	}
 
-	ctx, stop := signal.NotifyContext(ctx, cfg.Signals...)
+	ctx, stop := signal.NotifyContext(ctx, opts.Signals...)
 	defer stop()
 
 	ctx, cancel := context.WithCancelCause(ctx)
@@ -60,7 +73,7 @@ func (s Servers) Graceful(ctx context.Context, cfg Config) error {
 		return errors.Join(errors.New("failed to start servers"), err)
 	}
 
-	ctx, cancelT := context.WithTimeout(context.Background(), cfg.ShutdownTimeout)
+	ctx, cancelT := context.WithTimeout(context.Background(), opts.ShutdownTimeout)
 	defer cancelT()
 
 	var wg sync.WaitGroup
