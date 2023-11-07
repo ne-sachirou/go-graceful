@@ -1,0 +1,12 @@
+---
+name: GitHub Actions の test
+"on":
+  workflow_call:
+
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actionshub/yamllint@main
+      - uses: reviewdog/action-actionlint@v1
