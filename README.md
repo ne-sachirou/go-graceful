@@ -8,6 +8,17 @@
 
 Go で実装した server を graceful に shutdown する library です。
 
+## 機能
+
+- server を graceful に起動できます
+  - os.Signal を trap し、graceful に終了します
+    - trap する os.Signal を指定できます。標準では os.Interrupt のみを trap します
+  - 終了処理を指定できます
+    - 指定した timeout 時間を過ぎると、強制終了します。標準では即座に強制終了します
+- 複数の server を graceful に起動できます
+  - その内の server の 1 つでも起動に失敗したら、起動済みの全ての server を graceful に終了します
+- http と GRPC の server は、簡単に起動できる wrapper 函数を実装してあります
+
 ## 使用例
 
 ### http server を graceful に起動する
