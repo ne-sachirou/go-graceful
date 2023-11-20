@@ -7,7 +7,7 @@ name: main branch
 
 jobs:
   test-actions:
-    uses: ./.github/workflows/wf-test-actions.yml
+    uses: ./.github/workflows/run-test-actions.yml
 
   test-go:
-    uses: ./.github/workflows/wf-test-go.yml
+    uses: ./.github/workflows/run-test-go.yml
