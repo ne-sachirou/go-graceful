@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/signal"
 	"sync"
+	"syscall"
 	"time"
 )
 
@@ -30,7 +31,7 @@ type GracefulOpts struct {
 
 func defaultGracefulOpts() GracefulOpts {
 	return GracefulOpts{
-		Signals:         []os.Signal{os.Interrupt},
+		Signals:         []os.Signal{syscall.SIGINT, syscall.SIGTERM},
 		ShutdownTimeout: 0,
 	}
 }
