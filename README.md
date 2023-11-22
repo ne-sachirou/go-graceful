@@ -15,7 +15,7 @@ A library implemented in Go to gracefully shutdown the server.
     - If the specified timeout period elapses, a forced termination will occur. By default, it terminates immediately.
 - Multiple servers can be started gracefully.
   - If one of the servers fails to start, all started servers will be terminated gracefully.
-- The HTTP and GRPC servers implement a wrapper function for easy startup.
+- The HTTP and gRPC servers implement a wrapper function for easy startup.
 
 ## Usage Examples
 
@@ -61,9 +61,9 @@ func main() {
 
 For labstack/echo, pass the `*Echo` struct as a `net/http.Handler` interface to the `gracefulhttp.ListenAndServe` function instead of executing the `*Echo.Start` function.
 
-### Start GRPC server gracefully
+### Start gRPC server gracefully
 
-To start only one GRPC server, start the server with the `gracefulhttp.ListenAndServe` function.
+To start only one gRPC server, start the server with the `gracefulhttp.ListenAndServe` function.
 
 [Example](cmd/example-grpc/main.go)
 
@@ -222,7 +222,7 @@ Go で実装した server を graceful に shutdown する library です。
     - 指定した timeout 時間を過ぎると、強制終了します。標準では即座に強制終了します
 - 複数の server を graceful に起動できます
   - その内の server の 1 つでも起動に失敗したら、起動済みの全ての server を graceful に終了します
-- HTTP と GRPC の server は、簡単に起動できる wrapper 函数を実装してあります
+- HTTP と gRPC の server は、簡単に起動できる wrapper 函数を実装してあります
 
 ## 使用例
 
@@ -268,9 +268,9 @@ func main() {
 
 labstack/echo であれば、`*Echo.Start` 函数を実行する代はりに、`*Echo` struct を `net/http.Handler` interface として `gracefulhttp.ListenAndServe` 函数に渡してください。
 
-### GRPC server を graceful に起動する
+### gRPC server を graceful に起動する
 
-GRPC server を 1 つだけ起動する場合は、`gracefulgrpc.ListenAndServe` 函数で server を起動します。
+gRPC server を 1 つだけ起動する場合は、`gracefulgrpc.ListenAndServe` 函数で server を起動します。
 
 [例](cmd/example-grpc/main.go)
 
