@@ -43,7 +43,7 @@ func ListenAndServe(
 	ctx context.Context,
 	addr string,
 	server *grpc.Server,
-	options ...func(*graceful.GracefulOpts),
+	options ...graceful.Option,
 ) error {
 	srv := graceful.Servers{Servers: []graceful.Server{&Server{Addr: addr, Server: server}}}
 	return srv.Graceful(ctx, options...)
