@@ -29,7 +29,7 @@ func ListenAndServe(
 	ctx context.Context,
 	addr string,
 	handler http.Handler,
-	options ...func(*graceful.GracefulOpts),
+	options ...graceful.Option,
 ) error {
 	httpSrv := &http.Server{
 		Addr:    addr,
