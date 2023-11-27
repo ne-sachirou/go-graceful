@@ -1,3 +1,4 @@
+[![Go Reference](https://pkg.go.dev/badge/github.com/ne-sachirou/go-graceful.svg)](https://pkg.go.dev/github.com/ne-sachirou/go-graceful)
 [![main branch](https://github.com/ne-sachirou/go-graceful/actions/workflows/on-push-main.yml/badge.svg)](https://github.com/ne-sachirou/go-graceful/actions/workflows/on-push-main.yml)
 
 [English](#go-graceful) [日本語](#go-graceful-1)
