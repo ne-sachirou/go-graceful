@@ -42,7 +42,7 @@ func (s *ExampleBlockingServer) Serve(ctx context.Context) error {
 		select {
 		case <-ctx.Done():
 			fmt.Println("example blocking done")
-			return nil
+			return context.Canceled
 		case <-time.After(time.Second):
 			fmt.Println("example blocking working")
 		}
