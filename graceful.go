@@ -23,7 +23,7 @@ type Servers struct {
 }
 
 // gracefulOpts represents configuration parameters for the Server.
-// In default, gracefulOpts.Signals is []os.Signal{os.Interrupt} and gracefulOpts.ShutdownTimeout is 0.
+// In default, gracefulOpts.Signals is []os.Signal{syscall.SIGINT, syscall.SIGTERM} and gracefulOpts.ShutdownTimeout is 0.
 type gracefulOpts struct {
 	Signals         []os.Signal
 	ShutdownTimeout time.Duration
