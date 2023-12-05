@@ -36,14 +36,14 @@ func (s *ExampleServer) Serve(ctx context.Context) error {
 }
 
 func (s *ExampleServer) Shutdown(ctx context.Context) error {
-	fmt.Println("example shutdown")
 	close(s.done)
 	select {
 	case <-s.shutdowned:
+		fmt.Println("example shutdown")
 		return nil
 	case <-ctx.Done():
 		if err := ctx.Err(); errors.Is(err, context.DeadlineExceeded) {
-			return context.DeadlineExceeded
+			return errors.Join(errors.New("failed to shutdown example"), context.DeadlineExceeded)
 		}
 		return context.Canceled
 	}
@@ -72,14 +72,14 @@ func (s *ExampleBlockingServer) Serve(ctx context.Context) error {
 }
 
 func (s *ExampleBlockingServer) Shutdown(ctx context.Context) error {
-	fmt.Println("example blocking shutdown")
 	close(s.done)
 	select {
 	case <-s.shutdowned:
+		fmt.Println("example blocking shutdown")
 		return nil
 	case <-ctx.Done():
 		if err := ctx.Err(); errors.Is(err, context.DeadlineExceeded) {
-			return context.DeadlineExceeded
+			return errors.Join(errors.New("failed to shutdown blocking example"), context.DeadlineExceeded)
 		}
 		return context.Canceled
 	}

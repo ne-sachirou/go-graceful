@@ -22,8 +22,6 @@ type Servers struct {
 	Servers []Server
 }
 
-// gracefulOpts represents configuration parameters for the Server.
-// In default, gracefulOpts.Signals is []os.Signal{syscall.SIGINT, syscall.SIGTERM} and gracefulOpts.ShutdownTimeout is 0.
 type gracefulOpts struct {
 	Signals         []os.Signal
 	ShutdownTimeout time.Duration
@@ -39,18 +37,18 @@ func defaultGracefulOpts() gracefulOpts {
 // Option applies an option to the Server.
 type Option func(*gracefulOpts)
 
-// GracefulSignals sets signals to be received.
+// GracefulSignals sets signals to be received. Default is syscall.SIGINT & syscall.SIGTERM.
 func GracefulSignals(signals ...os.Signal) Option {
 	return func(o *gracefulOpts) { o.Signals = signals }
 }
 
-// GracefulShutdownTimeout sets timeout for shutdown.
+// GracefulShutdownTimeout sets timeout for shutdown. Default is 0.
 func GracefulShutdownTimeout(timeout time.Duration) Option {
 	return func(o *gracefulOpts) { o.ShutdownTimeout = timeout }
 }
 
-// Graceful runs all servers contained in s, then waits signals.
-// When receive an expected signal (in default, os.Interrupt), s stops all servers gracefully.
+// Graceful runs all servers contained in `s`, then waits signals.
+// When receive an expected signal (in default, syscall.SIGINT & syscall.SIGTERM), `s` stops all servers gracefully.
 func (s Servers) Graceful(ctx context.Context, options ...Option) error {
 	opts := defaultGracefulOpts()
 	for _, f := range options {
