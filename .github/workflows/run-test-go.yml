@@ -6,11 +6,14 @@ name: Go の test
 jobs:
   test-go:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go: ["1.22", "1.23"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version-file: go.mod
+          go-version: ${{ matrix.go }}
       - uses: golangci/golangci-lint-action@v6
       - name: go generate の生成漏れが無いか確認
         run: |
