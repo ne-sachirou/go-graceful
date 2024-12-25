@@ -44,7 +44,9 @@ func GracefulSignals(signals ...os.Signal) Option {
 
 // GracefulShutdownTimeout sets timeout for shutdown. Default is 0.
 func GracefulShutdownTimeout(timeout time.Duration) Option {
-	return func(o *gracefulOpts) { o.ShutdownTimeout = timeout }
+	return func(o *gracefulOpts) {
+		o.ShutdownTimeout = timeout
+	}
 }
 
 // Graceful runs all servers contained in `s`, then waits signals.
@@ -58,7 +60,7 @@ func (s Servers) Graceful(ctx context.Context, options ...Option) error {
 	ctx, stop := signal.NotifyContext(ctx, opts.Signals...)
 	defer stop()
 
-	ctx, cancel := context.WithCancelCause(ctx)
+	ctx, cancel := context.WithCancelCause(ctx) // nolint:govet
 
 	for _, srv := range s.Servers {
 		go func(ctx context.Context, srv Server) {
@@ -72,7 +74,7 @@ func (s Servers) Graceful(ctx context.Context, options ...Option) error {
 
 	<-ctx.Done()
 	if err := context.Cause(ctx); err != nil && !errors.Is(err, context.Canceled) {
-		return errors.Join(errors.New("failed to start servers"), err)
+		return errors.Join(errors.New("failed to start servers"), err) // nolint:govet
 	}
 
 	ctx, cancelT := context.WithTimeout(context.Background(), opts.ShutdownTimeout)
