@@ -20,5 +20,10 @@ jobs:
           set -e
           go generate ./...
           git diff --exit-code
+      - name: go build
+        run: |
+          (cd cmd/example && go build -o main main.go) || exit 1
+          (cd cmd/example-grpc && go build -o main main.go) || exit 1
+          (cd cmd/example-http && go build -o main main.go) || exit 1
       - name: go test
         run: go test ./...

@@ -16,7 +16,7 @@ type ExampleServer struct {
 	shutdowned chan struct{}
 }
 
-func (s *ExampleServer) Serve(ctx context.Context) error {
+func (s *ExampleServer) Serve() error {
 	s.done = make(chan struct{})
 	s.shutdowned = make(chan struct{})
 	go func() {
@@ -55,7 +55,7 @@ type ExampleBlockingServer struct {
 	shutdowned chan struct{}
 }
 
-func (s *ExampleBlockingServer) Serve(ctx context.Context) error {
+func (s *ExampleBlockingServer) Serve() error {
 	s.done = make(chan struct{})
 	s.shutdowned = make(chan struct{})
 	fmt.Println("example blocking serve")
