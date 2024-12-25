@@ -32,6 +32,7 @@ func (s *ExampleServer) Serve() error {
 		}
 	}()
 	fmt.Println("example serve")
+	//return errors.New("faild to serve the server")
 	return nil
 }
 
@@ -40,6 +41,8 @@ func (s *ExampleServer) Shutdown(ctx context.Context) error {
 	select {
 	case <-s.shutdowned:
 		fmt.Println("example shutdown")
+		//time.Sleep(time.Second * 2)
+		//return errors.New("faild to shutdown the server")
 		return nil
 	case <-ctx.Done():
 		if err := ctx.Err(); errors.Is(err, context.DeadlineExceeded) {
@@ -59,6 +62,7 @@ func (s *ExampleBlockingServer) Serve() error {
 	s.done = make(chan struct{})
 	s.shutdowned = make(chan struct{})
 	fmt.Println("example blocking serve")
+	//return errors.New("faild to serve the blocking server")
 	for {
 		select {
 		case <-s.done:
@@ -76,6 +80,8 @@ func (s *ExampleBlockingServer) Shutdown(ctx context.Context) error {
 	select {
 	case <-s.shutdowned:
 		fmt.Println("example blocking shutdown")
+		//time.Sleep(time.Second * 2)
+		//return errors.New("faild to shutdown the blocking server")
 		return nil
 	case <-ctx.Done():
 		if err := ctx.Err(); errors.Is(err, context.DeadlineExceeded) {
