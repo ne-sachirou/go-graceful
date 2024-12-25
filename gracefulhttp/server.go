@@ -13,7 +13,7 @@ type Server struct {
 	Server *http.Server
 }
 
-func (s *Server) Serve(ctx context.Context) error {
+func (s *Server) Serve() error {
 	if err := s.Server.ListenAndServe(); !errors.Is(err, http.ErrServerClosed) {
 		return err
 	}

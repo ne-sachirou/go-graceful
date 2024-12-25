@@ -13,7 +13,7 @@ import (
 
 // Server is the interface that wraps the Serve and Shutdown methods.
 type Server interface {
-	Serve(ctx context.Context) error
+	Serve() error
 	Shutdown(ctx context.Context) error
 }
 
@@ -64,7 +64,7 @@ func (s Servers) Graceful(ctx context.Context, options ...Option) error {
 
 	for _, srv := range s.Servers {
 		go func(ctx context.Context, srv Server) {
-			if err := srv.Serve(ctx); err != nil {
+			if err := srv.Serve(); err != nil {
 				cancel(err)
 			}
 		}(ctx, srv)

@@ -16,7 +16,7 @@ type Server struct {
 	Server *grpc.Server
 }
 
-func (s *Server) Serve(ctx context.Context) error {
+func (s *Server) Serve() error {
 	l, err := net.Listen("tcp", s.Addr)
 	if err != nil {
 		return err
