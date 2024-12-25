@@ -2,7 +2,7 @@ module github.com/ne-sachirou/go-graceful
 
 go 1.22
 
-toolchain go1.23.0
+toolchain go1.23.4
 
 require google.golang.org/grpc v1.69.2
 
