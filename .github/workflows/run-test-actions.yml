@@ -8,12 +8,12 @@ jobs:
     name: Test GitHub Actions
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: reviewdog/action-yamllint@v1
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      - uses: reviewdog/action-yamllint@f01d8a48fd8d89f89895499fca2cff09f9e9e8c0  # v1.21.0
         with:
           fail_level: error
           reporter: github-pr-review
-      - uses: reviewdog/action-actionlint@v1
+      - uses: reviewdog/action-actionlint@a5524e1c19e62881d79c1f1b9b6f09f16356e281  # v1.65.2
         with:
           # fail_level: error
           fail_on_error: true
