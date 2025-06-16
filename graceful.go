@@ -77,7 +77,14 @@ func (s Servers) Graceful(ctx context.Context, options ...Option) error {
 		return errors.Join(errors.New("failed to start servers"), err) // nolint:govet
 	}
 
-	ctx, cancelT := context.WithTimeout(context.Background(), opts.ShutdownTimeout)
+	var shutdownCtx context.Context
+	var cancelT context.CancelFunc
+	if opts.ShutdownTimeout > 0 {
+		shutdownCtx, cancelT = context.WithTimeout(context.Background(), opts.ShutdownTimeout)
+	} else {
+		shutdownCtx, cancelT = context.WithCancel(context.Background())
+	}
+	ctx = shutdownCtx
 	defer cancelT()
 
 	var wg sync.WaitGroup

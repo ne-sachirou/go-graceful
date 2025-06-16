@@ -13,7 +13,7 @@ A library implemented in Go to gracefully shutdown the server.
   - Trap os.Signal and exit gracefully.
     - You can specify os.Signal to trap. By default, only os.Interrupt is trapped.
   - Exit processing can be specified.
-    - If the specified timeout period elapses, a forced termination will occur. By default, it terminates immediately.
+    - If the specified timeout period elapses, a forced termination will occur. By default, it waits indefinitely for a normal termination.
 - Multiple servers can be started gracefully.
   - If one of the servers fails to start, all started servers will be terminated gracefully.
 - The HTTP and gRPC servers implement a wrapper function for easy startup.
@@ -277,7 +277,7 @@ Go で実装した server を graceful に shutdown する library です。
   - os.Signal を trap し、graceful に終了します
     - trap する os.Signal を指定できます。標準では os.Interrupt のみを trap します
   - 終了処理を指定できます
-    - 指定した timeout 時間を過ぎると、強制終了します。標準では即座に強制終了します
+    - 指定した timeout 時間を過ぎると、強制終了します。標準では正常終了を永遠に待ちます
 - 複数の server を graceful に起動できます
   - その内の server の 1 つでも起動に失敗したら、起動済みの全ての server を graceful に終了します
 - HTTP と gRPC の server は、簡単に起動できる wrapper 函数を実装してあります

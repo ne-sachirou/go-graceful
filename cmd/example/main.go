@@ -101,7 +101,7 @@ func main() {
 		},
 	}
 
-	if err := srv.Graceful(ctx, graceful.GracefulShutdownTimeout(time.Second)); err != nil {
+	if err := srv.Graceful(ctx); err != nil {
 		panic(err)
 	}
 }
