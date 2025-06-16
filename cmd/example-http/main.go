@@ -5,9 +5,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"time"
 
-	"github.com/ne-sachirou/go-graceful"
 	"github.com/ne-sachirou/go-graceful/gracefulhttp"
 )
 
@@ -21,12 +19,7 @@ func main() {
 		}
 	})
 
-	if err := gracefulhttp.ListenAndServe(
-		ctx,
-		":8000",
-		mux,
-		graceful.GracefulShutdownTimeout(time.Second),
-	); err != nil {
+	if err := gracefulhttp.ListenAndServe(ctx, ":8000", mux); err != nil {
 		panic(err)
 	}
 }
