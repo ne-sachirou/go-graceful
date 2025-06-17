@@ -5,7 +5,7 @@
   packageRules: [
     {
       automerge: true,
-      matchUpdateTypes: ["minor", "patch"],
+      matchUpdateTypes: ["patch"],
     },
   ],
   schedule: "after 10am and before 7pm every weekday",
