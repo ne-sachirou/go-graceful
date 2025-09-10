@@ -4,7 +4,7 @@ go 1.23.0
 
 toolchain go1.25.1
 
-require google.golang.org/grpc v1.75.0
+require google.golang.org/grpc v1.75.1
 
 require (
 	golang.org/x/net v0.41.0 // indirect
