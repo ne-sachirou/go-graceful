@@ -5,7 +5,13 @@ name: Pull Request
 
 jobs:
   test-actions:
+    permissions:
+      contents: read
+      pull-requests: write
     uses: ./.github/workflows/run-test-actions.yml
 
   test-go:
+    permissions:
+      contents: read
+      pull-requests: write
     uses: ./.github/workflows/run-test-go.yml
