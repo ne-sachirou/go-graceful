@@ -9,9 +9,9 @@ jobs:
   test-actions:
     permissions:
       contents: read
-    uses: ./.github/workflows/run-test-actions.yml
+    uses: ./.github/workflows/run-test-actions.yaml
 
   test-go:
     permissions:
       contents: read
-    uses: ./.github/workflows/run-test-go.yml
+    uses: ./.github/workflows/run-test-go.yaml

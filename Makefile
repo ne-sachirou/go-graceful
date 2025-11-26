@@ -10,8 +10,8 @@ lint: lint-gha lint-go lint-markdown lint-renovate ## Lint
 lint-gha:
 	yamllint .github/workflows/
 	actionlint
-	ghalint run || true
-	zizmor . || true
+	ghalint run
+	zizmor .
 
 lint-go:
 	go vet || true
