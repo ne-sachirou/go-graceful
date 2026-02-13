@@ -4,6 +4,14 @@ SHELL=/bin/bash
 help:
 	@awk -F':.*##' '/^[-_a-zA-Z0-9]+:.*##/{printf"%-12s\t%s\n",$$1,$$2}' $(MAKEFILE_LIST) | sort
 
+format: format-go ## Format
+
+format-go:
+	go get ./... && go mod tidy
+	go generate ./...
+	gofmt -s -w .
+	goimports -w .
+
 lint: lint-gha lint-go lint-markdown lint-renovate ## Lint
 	yamllint .
 
@@ -21,4 +29,3 @@ lint-markdown:
 
 lint-renovate:
 	npx --package renovate -- renovate-config-validator
-
