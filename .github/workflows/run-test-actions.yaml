@@ -2,11 +2,15 @@
 name: Test GitHub Actions
 "on":
   workflow_call:
+    inputs:
+      github-token:
+        required: true
+        type: string
 
 jobs:
   test-actions:
     name: Test GitHub Actions
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       checks: write
       contents: read
@@ -22,4 +26,4 @@ jobs:
           reporter: github-pr-review
       - uses: ne-sachirou/lint-gha-reviewdog@47315c74bcffa1c74c12a6e1f004bf6e1fd4147b # v0.0.1
         with:
-          github_token: ${{ github.token }}
+          github_token: ${{ inputs.github-token }}

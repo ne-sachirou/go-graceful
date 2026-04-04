@@ -8,7 +8,10 @@ name: main branch
 jobs:
   test-actions:
     permissions:
+      checks: write
       contents: read
+    with:
+      github-token: ${{ github.token }}
     uses: ./.github/workflows/run-test-actions.yaml
 
   test-go:
