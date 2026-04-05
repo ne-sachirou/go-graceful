@@ -2,12 +2,17 @@
 name: Test GitHub Actions
 "on":
   workflow_call:
+    inputs:
+      github-token:
+        required: true
+        type: string
 
 jobs:
   test-actions:
     name: Test GitHub Actions
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
+      checks: write
       contents: read
       pull-requests: write
     timeout-minutes: 10
@@ -19,8 +24,6 @@ jobs:
         with:
           fail_level: error
           reporter: github-pr-review
-      - uses: reviewdog/action-actionlint@6fb7acc99f4a1008869fa8a0f09cfca740837d9d # v1.72.0
+      - uses: ne-sachirou/lint-gha-reviewdog@47315c74bcffa1c74c12a6e1f004bf6e1fd4147b # v0.0.1
         with:
-          # fail_level: error
-          fail_on_error: true
-          reporter: github-pr-review
+          github_token: ${{ inputs['github-token'] }}

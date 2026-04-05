@@ -6,8 +6,11 @@ name: Pull Request
 jobs:
   test-actions:
     permissions:
+      checks: write
       contents: read
       pull-requests: write
+    with:
+      github-token: ${{ github.token }}
     uses: ./.github/workflows/run-test-actions.yaml
 
   test-go:
