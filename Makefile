@@ -23,6 +23,7 @@ lint-gha:
 
 lint-go:
 	go vet || true
+	go tool govulncheck ./...
 
 lint-markdown:
 	npx prettier -c README.md
