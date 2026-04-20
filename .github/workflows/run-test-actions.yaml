@@ -24,6 +24,6 @@ jobs:
         with:
           fail_level: error
           reporter: github-pr-review
-      - uses: ne-sachirou/lint-gha-reviewdog@20b39a5315423b49568b7e8f31ab9397a0658b3c # v0.0.2
+      - uses: ne-sachirou/lint-gha-reviewdog@03c5a958059d487098dc4efc7ca85b57c8111611 # v0.0.3
         with:
           github_token: ${{ inputs['github-token'] }}
