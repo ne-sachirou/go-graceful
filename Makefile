@@ -7,7 +7,7 @@ help:
 format: format-go ## Format
 
 format-go:
-	go get ./... && go mod tidy
+	go mod download && go mod tidy
 	go generate ./...
 	gofmt -s -w .
 	goimports -w .
