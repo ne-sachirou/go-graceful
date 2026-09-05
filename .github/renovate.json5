@@ -5,13 +5,15 @@
   minimumReleaseAge: "3 days",
   packageRules: [
     {
-      automerge: true,
+      description: "Ignore non-security patch updates",
+      enabled: false,
       matchUpdateTypes: ["patch"],
     },
   ],
   schedule: "after 10am and before 7pm every weekday",
   timezone: "Asia/Tokyo",
   vulnerabilityAlerts: {
+    enabled: true,
     labels: ["dependencies", "security"],
   },
 }
