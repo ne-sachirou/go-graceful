@@ -1,6 +1,6 @@
 module github.com/ne-sachirou/go-graceful
 
-go 1.25.0
+go 1.26.0
 
 toolchain go1.27.1
 
