@@ -2,10 +2,6 @@
 name: Test GitHub Actions
 "on":
   workflow_call:
-    inputs:
-      github-token:
-        required: true
-        type: string
 
 jobs:
   test-actions:
@@ -26,4 +22,4 @@ jobs:
           reporter: github-pr-review
       - uses: ne-sachirou/lint-gha-reviewdog@2e38d654cce110543a3c56846f4690e1b6e27487 # v0.0.14
         with:
-          github_token: ${{ inputs['github-token'] }}
+          github_token: ${{ github.token }}
