@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: reviewdog/action-yamllint@290d92c84b22627946efc7fd6f038ade2d2beede # v1.25.0
+      - uses: reviewdog/action-yamllint@020fba38ce9fed550c704d933aeeb7d6360f7d47 # v1.26.0
         with:
           fail_level: error
           reporter: github-pr-review
